@@ -1,0 +1,90 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Drop Down Menu Task </title>
+    
+    <script src="jQuery.js" type="text/javascript"></script>
+    <script type="text/javascript" src="firefly.js"></script>
+    <style type="text/css">
+        .dropoptions:hover
+        {
+        	color:Green;
+        }
+    </style>
+    
+</head>
+<body style="z-index: 0">
+    <h1>
+        Drop Down Menu Task</h1>
+    <div style="border: 1px solid black">
+        <div style="float: left; width: 50%; border-right: 2px solid black;">
+            <span>Select Box 1
+                <select id="Select1">
+                    <option value="cars">Cars</option>
+                    <option value="bikes">Bikes</option>
+                    <option value="trucks">Trucks</option>
+                    <option value="aeroplane">Aeroplanes</option>
+                </select>
+            </span>
+            <br />
+            <br />
+            <br />
+            Select Box2 <span>
+                <select>
+                    <option value="in">India</option>
+                    <option value="usa">United States of America</option>
+                    <option value="au">Australia</option>
+                    <option value="eu">Europe</option>
+                    <option value="nz">New Zeeland</option>
+                </select></span>
+        </div>
+        <input type="button" value="Clear Result" onclick="document.getElementById('result').innerHTML='';" />
+        <div id="result" style="float: right; width: 48%; height: 300px; overflow: scroll">
+            Result Window</div>
+    </div>
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <div id="whatYouDid">
+    </div>
+    <div>
+        <h2>
+            Task 1 Description</h2>
+        <code>- Scans through all of the HTML on a given page<br />
+            - Sets up event listeners on each
+            <select>
+                tag<br />
+                - When a particular
+                <select>
+                    tag is clicked (which triggers the menu to come down) return information that can
+                    be used to reconstruct the visual representation of the dropdown. (You return an
+                    object that has the names of all of the dropdown options in an array, the index
+                    of the option that is currently moused over, and the index of the currently selected
+                    option).<br />
+                    - When a new element in the dropdown is moused over, the library should return the
+                    index of the moused over element.<br />
+                    - When the dropdown disappears after clicking outside of the dropbox, return a message
+                    for this (the message can just say “disappeared”).<br />
+                    - when selecting an element, return the index of the selected element<br /></code>
+    </div>
+    <script type="text/javascript">
+        window.onload = function () {
+            var data = _fireflyDomSniffer("result").collectSelectNode(document);
+            
+        }
+        $(".dropoptions").change(function () {
+            alert("d");
+        });
+
+       
+    </script>
+</body>
+</html>

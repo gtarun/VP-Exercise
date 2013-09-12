@@ -1,0 +1,95 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <script type="text/javascript" src="firefly.js"></script>
+    <title></title>
+</head>
+<body>
+    <h1>
+        Exercise 3</h1>
+    <input type="button" onclick="return sanitize();" value="Sanitize HTML" />
+    <input type="button"  value="Add New Attribute" onclick="AddAttr('attrAdd','xyz');"/>
+    <input type="button"  value="Remove Attribute" onclick="removeAttr('attrAdd','xyz');"/>
+    <div class="abc#@" id="xyz" src="dsbhfkjlbsd">
+    </div>
+    <div id="myId"></div>
+    <div id="attrAdd">        
+   
+    </div>
+    <div id="result">
+        <span id="accepted" style="border: 2px solid green; width: 100%;padding:10px; display: block">Accepted [attribute : value]:
+        </span><span id="rejected" style="border: 2px solid red;width: 100%;padding:10px; display: block">Rejected [attribute : value]:</span>
+    </div>
+    <div id="whatYouDid"></div>
+    <!-- Javascript code starts here  -->
+    <script type="text/javascript">
+
+        var d = document.getElementById("xyz");
+        var c = document.getElementById("myId");
+        var allAttr = d.attributes;
+        c.innerHTML = "<b><xmp>" + d.outerHTML + "</xmp></b><br />";
+        /*Sanitazion function for exercise 3*/
+        function sanitize() {
+            var attr_array = _fireflyDomSniffer("xyz").includeList();
+            var result = document.getElementById("result");
+            //alert(result.childNodes[3].innerHTML);
+            for (var i = 0; i < allAttr.length; i++) {
+                if (attr_array.indexOf(allAttr[i].name) != -1) {
+
+                    if (_fireflyDomSniffer("xyz").sanitizeHTML(allAttr[i].name, allAttr[i].value)) {
+                       // alert(allAttr[i].name);
+                        result.childNodes[1].innerHTML += "<br>" + allAttr[i].name + " : " + allAttr[i].value + "";
+                    } else {
+                        result.childNodes[2].innerHTML += "<br>" + allAttr[i].name + " : " + allAttr[i].value + " -- REG EX Rejected";
+                    }
+                } else {
+                    //alert("rejected");
+                    result.childNodes[2].innerHTML += "<br>" + allAttr[i].name + " : " + allAttr[i].value + " -- Not in include list";
+                }
+            }
+            c.innerHTML = "";
+            d = document.getElementById(xyz);
+            c.innerHTML = "<b><xmp>" + d.outerHTML + "</xmp></b><br />";
+
+        }
+        function removeAttr(pasteHere,This) {
+            //alert(This);
+            This = document.getElementById(This);
+            var attr_array = This.attributes;
+            var str = "";
+            for (var i = 0; i < attr_array.length; i++) {
+                str += "<li>" + attr_array[i].name + "<input type='checkbox' onclick='removeThisAttr(\"" + attr_array[i].name.toString() + "\"," + This.id + ")' /></li>";
+            }
+            document.getElementById(pasteHere).innerHTML = str;
+            //c.innerHTML = "<b><xmp>" + d.outerHTML + "</xmp></b><br />";
+        }
+        function removeThisAttr(name, tag) {
+        //alert(name+" " +tag)
+            //_fireflyDomSniffer()
+        _fireflyDomSniffer("xyz").removeAttribute(tag, name);
+        c.innerHTML = "<b><xmp>" + d.outerHTML + "</xmp></b><br />";
+        document.getElementById("attrAdd").innerHTML = "";
+
+        }
+        function AddAttr(pasteHere, This) {
+            This = document.getElementById(This);
+            var attr_array = _fireflyDomSniffer("xyz").includeList();
+            var str = "";
+            for (var i = 0; i < attr_array.length; i++) {
+                str += "<li>" + attr_array[i] + "<input type='checkbox' onclick='addThisAttr(\"" + attr_array[i].toString() + "\"," + This.id + ")' /></li>";
+            }
+            document.getElementById(pasteHere).innerHTML = str;
+        }
+        function addThisAttr(name, tag) {
+            var attrVal = prompt('Add value of ' + name);
+            if (attrVal) {
+                _fireflyDomSniffer("xyz").insertAttribute(name, attrVal);
+                c.innerHTML = "<b><xmp>" + d.outerHTML + "</xmp></b><br />";
+                document.getElementById("attrAdd").innerHTML = "";
+            }
+        }
+    
+      
+    </script>
+</body>
+</html>

@@ -1,0 +1,33 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <script type="text/javascript" src="firefly.js"></script>
+    <title></title>
+</head>
+<body>
+ <h1>
+        Exercise 4</h1>
+    <input type="text"  placeholder="write something" id="txtValue"/>
+    <input type="button"  value="Check" onclick="checkValue();"/>
+    <div id="result"></div>
+    <script type="text/javascript">
+		function checkValue(){
+			var val=document.getElementById("txtValue").value	;
+			var pattren=  /^[a-zA-Z0-9,\-\s]+$/;
+			//var pattren=/^([a-zA-Z0-9]+)$/;
+			if(pattren.test(val))
+			{
+				document.getElementById("result").innerHTML="<b>'"+val +"'</b><span style='color:green;'> has passed the test !!</span>";
+			}
+			else
+			{
+				document.getElementById("result").innerHTML="<b>'"+val +"'</b><span style='color:red;'>has Failed the test !!</span>";
+				}
+			
+			
+			
+			
+		}
+	</script>
+</body>
+</html>

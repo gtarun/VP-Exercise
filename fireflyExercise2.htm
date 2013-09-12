@@ -1,0 +1,45 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <script type="text/javascript" src="firefly.js"></script>
+</head>
+<body>
+    <div id="divCollectTextNodes">
+        <h1>
+            Exercise 2</h1>
+        <div>
+            <p id="row1">
+                Enter name
+                <input type="text" />
+            </p>
+            <p id="row2">
+                Enter Email
+                <input type="text" />
+            </p>
+            <p id="row3">
+                Enter Gender
+                <input type="radio" name="g" value="Male" />Male
+                <input type="radio" name="g" value="Female" />Female
+            </p>
+            <p id="row4">
+                Select country
+                <select>
+                    <option>Select</option>
+                    <option>India</option>
+                    <option>USA</option>
+                    <option>China</option>
+                </select>
+            </p>
+            <p id="row5">
+                <input type="button" value="Show" onclick="showinput()" />
+            </p>
+        </div>
+        <div id="whatYouDid"></div>
+        <script language="javascript" type="text/javascript">
+            function showinput() {
+                _fireflyDomSniffer("divCollectTextNodes").collectTextNodes(document);
+            }
+    </script>
+</body>
+</html>

@@ -1,0 +1,125 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Untitled Document</title>
+    <script type="text/javascript" src="firefly.js">
+    </script>
+    <style type="text/css">
+        .squareBox
+        {
+            height: 200px;
+            width: 200px;
+            border: 2px solid blue;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+    <h1>
+        Exercise 1</h1>
+    <input type="button" onclick="return changeColor('green');" value="Click to change color" />
+    <input type="button" onclick="return appendNewChild('div','appendedData');" value="AppendChild [DIV]" />
+    <input type="text" id="appendedData" />
+    <br />
+    
+    <br />
+    <div id="result" style="border: 1px solid black; padding: 20px">
+        I will not change my color ever!!
+    </div>
+    <div id="resultnew" style="border: 1px solid black; padding: 20px">
+        Another action you can do after it !!
+    </div>
+    <div id="whatYouDid">
+    </div>
+    <div id="divRemoveChild" style="border: 1px solid green; padding: 10px">
+        <h2>
+            Remove Child Demonstration</h2>
+        <span class="squareBox" id="span1" onclick="removeNewChild(this);">Please to be Removed
+            <br />
+            "span1"</span> <span class="squareBox" id="span2" onclick="removeNewChild(this);">Please
+                to be Removed
+                <br />
+                "span2"</span> <span class="squareBox" id="span3" onclick="removeNewChild(this);">Please
+                    to be Removed
+                    <br />
+                    "span3"</span> <span class="squareBox" id="span4" onclick="removeNewChild(this);">Please
+                        to be Removed
+                        <br />
+                        "span3"</span> <span class="squareBox" id="span5" onclick="removeNewChild(this);">Please
+                            to be Removed
+                            <br />
+                            "span4"</span>
+    </div>
+    <!--Div to demonstrate Remove Attribute starts here -->
+    <div id="divRemoveAttribute" style="border: 1px solid green; padding: 10px">
+        <h2>
+            Remove Attribute Demonstration</h2>
+        <span id="spanRemoveAttr" style="color: red" class="squareBox" onclick="removeAttr(this);">
+            Click me to Remove My attributes</span>
+    </div>
+    <!--Div to demonstrate Remove Attribute Ends here -->
+    <!--Div to demonstrate Add Attribute starts here -->
+    <div id="divAddAttribute" style="border: 1px solid green; padding: 10px">
+        <h2>
+            Add Attribute Demonstration</h2>
+        <span id="spanAddAttr" style="color: red" class="squareBox" onclick="AddAttr(this);">
+            Click me to Add My attributes</span>
+    </div>
+    <!--Div to demonstrate Add Attribute Ends here -->
+    
+    <!-- script for using the library of firefly -->
+    <script type="text/javascript">
+        var toRemoveArr = "";
+        function changeColor(color) {
+            _fireflyDomSniffer('result').bgcolor(color);
+        }
+        function appendNewChild(nodeType, dataContainer) {
+            var d = document.getElementById(dataContainer);
+            if (d.value == "") {
+                alert("Please fill something in the textbox so that we can show data even");
+            }
+            else {
+                _fireflyDomSniffer('resultnew').appendChild(d.value, nodeType);
+            }
+        }
+
+        function removeNewChild(This) {
+            This.style.backgroundColor = "black";
+            toRemoveArr = This;
+            var action = confirm("Are you sure you want to delete this element");
+            if (action) {
+                _fireflyDomSniffer("divRemoveChild").removeChild(This.id);
+            }
+        }
+        function removeAttr(This) {
+
+            var attr_array = document.getElementById(This.id).attributes;
+            var str = "";
+            for (var i = 0; i < attr_array.length; i++) {
+                str += "<li>" + attr_array[i].name + "<input type='checkbox' onclick='removeThisAttr(\"" + attr_array[i].name.toString() + "\"," + This.id + ")' /></li>";
+            }
+            This.innerHTML = str;
+        }
+        function removeThisAttr(name, tag) {
+            _fireflyDomSniffer()
+            _fireflyDomSniffer("divRemoveAttribute").removeAttribute(tag, name);
+        }
+        function AddAttr(This) {
+            var attr_array = _fireflyDomSniffer("divAddAttribute").includeList();
+            var str = "";
+            for (var i = 0; i < attr_array.length; i++) {
+                str += "<li>" + attr_array[i] + "<input type='checkbox' onclick='addThisAttr(\"" + attr_array[i].toString() + "\"," + This.id + ")' /></li>";
+            }
+            This.innerHTML = str;
+        }
+        function addThisAttr(name, tag) {
+            var attrVal = prompt('Add value of ' + name);
+            if (attrVal) {
+                _fireflyDomSniffer("divAddAttribute").insertAttribute(name, attrVal);
+            }
+        }
+        
+    </script>
+</body>
+</html>
