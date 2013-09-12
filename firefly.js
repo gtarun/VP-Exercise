@@ -4,7 +4,11 @@
 * you can chain as many methods as you want and will not harm your exection as it was in problem defination 
 */
 
-//creating the Main function which will take the parameter for the library function 
+//creating the Main function which will take the parameter for the library function
+var cObj;
+var cJson;
+var cSel=-1;
+var cHov=0; 
 function _fireflyDomSniffer(z) {
     var dflt = { Product: "FireFly" };
     if (z) {
@@ -32,7 +36,7 @@ _fireflyDomSniffer.prototype =
         d.style.color = "white";
         this.e.appendChild(d);
         this.createWhatYouDid("appendChild", delta); //this will be used for all the methods
-        return this
+        return d;
     },
     removeChild: function (childDiv) {
         var child = document.getElementById(childDiv);
@@ -137,15 +141,20 @@ _fireflyDomSniffer.prototype =
     },
     collectData: function (arrayElements) {
         /*TO collect any of an array and return a json object*/
-        var data = {};
+        var main = [];
+
         for (var i = 0; i < arrayElements.length; i++) {
+            var data = {};
             this.e = arrayElements[i];
             this.insertAttribute("class", "dropoptions");
-            this.insertAttribute("onmousemove", "_fireflyDomSniffer('result').getSelectOnMouseOver(this);");
-            this.insertAttribute("onmouseover", "_fireflyDomSniffer('result').getSelectOnMouseOut(" + arrayElements.id + ");");
-            data[arrayElements[i].text] = arrayElements[i].value;
+            this.insertAttribute("onmouseover", "_fireflyDomSniffer('result').getSelectOnMouseOver(this);");
+            this.insertAttribute("onmouseout", "_fireflyDomSniffer('result').getSelectOnMouseOut(this);");
+            //data[arrayElements[i].text] = arrayElements[i].value;
+            data.text = arrayElements[i].text;
+            data.val = arrayElements[i].value;
+            main[i] = data;
         }
-        return data;
+        return main;
     },
     getAllSelectNodesValues: function (arr) {
         this.e = arr;
@@ -154,30 +163,70 @@ _fireflyDomSniffer.prototype =
         var inputSelectId = {};
         var givenSelector = this.e;
         var dataArr = this.collectData(arr);
+        //alert(JSON.stringify(dataArr));
         inputSelectId[arr.id] = dataArr;
         var json = JSON.stringify(inputSelectId);
         this.createWhatYouDid("collectSelectNode", json);
         console.log(json);
         d = document.getElementById("result");
-        this.getSelectCopy(d,json);
+        this.DummySelect(d, json, cSel, cHov);
         return json;
     },
     getSelectOnChange: function (obj) {
         console.log("Selected value is :" + obj.value + " and selected index is : " + obj.selectedIndex);
-
+        this.DummySelect(cObj, cJson, cSel, obj.selectedIndex);
+        cSel = obj.selectedIndex;
+        cHov = -1;
     },
     getSelectOnMouseOver: function (obj) {
-        console.log("Hover index is :" + obj.value);
+        console.log("Hover index is :" + obj.index);
+
+        this.DummySelect(cObj, cJson, cSel, obj.index);
+        cHov = obj.index;
 
     },
     getSelectOnMouseOut: function (obj) {
         console.log("Hover Out from  :" + obj.id);
+        //this.DummySelect(cObj, cJson, cSel, cHov);
     },
     resetAndOutFromSelect: function () {
 
-    }, getSelectCopy: function (obj) {
+    }, DummySelect: function (obj, json, currentlyhovered, currentlyselected) {
         this.e = obj
-        this.appendChild("div", "json");
+        var o = JSON.parse(json); //conerted the string into JSON object
+        var s;
+        for (t in o) {
+            s = t; //getting id of selected element
+        }
+        //alert(s);
+        $.each(o, function () {
+            inner = this;
+
+            s = "<ul>";
+            $.each(inner, function (index) {
+                if (index == currentlyselected && index == currentlyhovered) {
+                    s += "<li class='active'>@" + this.text + "</li>";
+                }
+                else if (index == currentlyselected) {
+                    s += "<li class='active'>" + this.text + "</li>";
+                }
+                else if (index == currentlyhovered) {
+                    s += "<li>@" + this.text + "</li>";
+                }
+                else {
+                    s += "<li>" + this.text + "</li>";
+                }
+            });
+            console.log(s);
+            s += "</ul>";
+        });
+        document.getElementById("result").innerHTML = "";
+        var newEl = this.appendChild(s, "div");
+        newEl.setAttribute("class", "ffselectbox");
+        cObj = obj;
+        cJson = json;
+
+
     }
 }
 
